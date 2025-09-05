@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPA非販売オーダー作成ガイドライン・インタラクティブ版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .step-item.active .step-circle {
+            background-color: #0d9488;
+            color: white;
+            border-color: #0d9488;
+        }
+        .step-item.active .step-line {
+            background-color: #0d9488;
+        }
+        .step-item .step-circle {
+            transition: all 0.3s ease;
+        }
+        .q-item[open] .q-icon {
+            transform: rotate(180deg);
+        }
+        .q-icon {
+            transition: transform 0.3s ease;
+        }
+        .flow-box {
+            border: 2px solid #e5e7eb;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            position: relative;
+        }
+        .flow-arrow::after {
+            content: '→';
+            font-size: 2rem;
+            color: #9ca3af;
+            position: absolute;
+            top: 50%;
+            right: -2rem;
+            transform: translateY(-50%);
+        }
+        @media (max-width: 768px) {
+            .flow-arrow::after {
+                content: '↓';
+                top: 100%;
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals with Teal Accent -->
+    <!-- Application Structure Plan: A task-oriented, single-page application that guides the user through the 5-step order process. The structure uses a top navigation stepper to allow users to jump between sections. Each step is presented in a separate card with interactive elements, like a clickable form guide and key action callouts, to improve comprehension and reduce errors. A final section provides post-order information and an accordion-style Q&A. This linear, step-by-step structure was chosen because the source material is a strict procedure, and guiding the user sequentially is the most effective way to ensure they follow it correctly. -->
+    <!-- Visualization & Content Choices: 
+        - Process Overview -> Goal: Show progress, provide navigation -> Viz: HTML/CSS Stepper -> Interaction: Click to scroll to section -> Justification: Intuitive UI for multi-step tasks.
+        - 'Order Header' Fields -> Goal: Explain complex form requirements clearly -> Viz: Interactive List styled as form fields -> Interaction: Click on a field to reveal a detailed modal with instructions and warnings -> Justification: Avoids a large, intimidating table; allows users to focus on one field at a time (progressive disclosure).
+        - Submission Outcomes -> Goal: Clarify the results of the email action -> Viz: HTML/CSS Flowchart -> Interaction: None, purely visual -> Justification: A visual flow is easier to understand than descriptive text for conditional outcomes.
+        - Q&A -> Goal: Provide help without cluttering the UI -> Viz: HTML/CSS Accordion -> Interaction: Click to expand/collapse answers -> Justification: Standard, space-saving method for FAQs.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <div class="container mx-auto max-w-5xl p-4 sm:p-8">
+
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-teal-800 mb-4">RPA非販売オーダー作成ガイドライン</h1>
+            <p class="text-lg text-stone-600">インタラクティブ・ガイド</p>
+        </header>
+        
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md mb-10 shadow" role="alert">
+            <h2 class="font-bold text-lg mb-2">【重要】オーダーの管理について</h2>
+            <ul class="list-disc list-inside space-y-1">
+                <li>オーダー作成後の進捗管理は、<strong class="underline">依頼者ご自身で</strong>お願いいたします。</li>
+                <li>在庫や出荷状況は、本ガイド記載のダッシュボードでご確認ください。</li>
+                <li>原則として、HDチームから個別の出荷遅延や欠品に関するご連絡は行いません。</li>
+            </ul>
+        </div>
+
+        <!-- Stepper Navigation -->
+        <nav class="mb-12">
+            <div class="flex items-center justify-between">
+                <div class="step-item flex-1 text-center cursor-pointer" onclick="scrollToSection('step1')">
+                    <div class="step-circle w-10 h-10 mx-auto border-2 border-stone-300 rounded-full flex items-center justify-center font-bold text-lg bg-white">1</div>
+                    <p class="mt-2 text-sm font-medium">準備</p>
+                </div>
+                <div class="step-line flex-1 h-1 bg-stone-300"></div>
+                <div class="step-item flex-1 text-center cursor-pointer" onclick="scrollToSection('step2')">
+                    <div class="step-circle w-10 h-10 mx-auto border-2 border-stone-300 rounded-full flex items-center justify-center font-bold text-lg bg-white">2</div>
+                    <p class="mt-2 text-sm font-medium">ヘッダー入力</p>
+                </div>
+                <div class="step-line flex-1 h-1 bg-stone-300"></div>
+                <div class="step-item flex-1 text-center cursor-pointer" onclick="scrollToSection('step3')">
+                    <div class="step-circle w-10 h-10 mx-auto border-2 border-stone-300 rounded-full flex items-center justify-center font-bold text-lg bg-white">3</div>
+                    <p class="mt-2 text-sm font-medium">明細入力</p>
+                </div>
+                <div class="step-line flex-1 h-1 bg-stone-300"></div>
+                <div class="step-item flex-1 text-center cursor-pointer" onclick="scrollToSection('step4')">
+                    <div class="step-circle w-10 h-10 mx-auto border-2 border-stone-300 rounded-full flex items-center justify-center font-bold text-lg bg-white">4</div>
+                    <p class="mt-2 text-sm font-medium">保存</p>
+                </div>
+                <div class="step-line flex-1 h-1 bg-stone-300"></div>
+                <div class="step-item flex-1 text-center cursor-pointer" onclick="scrollToSection('step5')">
+                    <div class="step-circle w-10 h-10 mx-auto border-2 border-stone-300 rounded-full flex items-center justify-center font-bold text-lg bg-white">5</div>
+                    <p class="mt-2 text-sm font-medium">送信</p>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="space-y-12">
+            
+            <section id="step1" class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold text-teal-700 mb-4">Step 1: 最新テンプレートの準備</h2>
+                <p class="mb-4 text-stone-600">まずはじめに、RPAオーダー用の正しいテンプレートファイルを用意します。古いファイルを使用するとエラーの原因となります。</p>
+                <div class="bg-stone-100 p-4 rounded-lg">
+                    <h3 class="font-bold mb-2">✅ Key Actions</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong class="text-teal-800">Japan専用の最新テンプレート</strong>を使用します。（シーズン毎にITチームが更新）</li>
+                        <li>入力シートは <code class="bg-stone-200 px-2 py-1 rounded">Order Header</code> と <code class="bg-stone-200 px-2 py-1 rounded">Order Lines</code> の2つであることを確認します。</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="step2" class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold text-teal-700 mb-4">Step 2: 「Order Header」シートの入力</h2>
+                <p class="mb-6 text-stone-600">オーダーの基本情報を入力します。特に2〜12行目は正確さが重要です。下の各項目をクリックすると、詳しい入力方法と注意点が表示されます。</p>
+                <div class="space-y-3">
+                    <div class="interactive-field" onclick="showModal('Cluster', 'ご自身の所属チーム（Sales / Marketing）を選択してください。')">Cluster</div>
+                    <div class="interactive-field" onclick="showModal('Account Name', 'リストから対象の項目を選択します。')">Account Name</div>
+                    <div class="interactive-field" onclick="showModal('Initiative', 'どの予算で出荷するかを選択します。<br>・<b>S</b>で始まる番号 → <b>Sales予算</b><br>・<b>M</b>で始まる番号 → <b>Marketing予算</b>')">Initiative</div>
+                    <div class="interactive-field" onclick="showModal('Requested receipt date', '出荷希望日を<b>日月年の順</b>で入力します。(例: 30.07.2025)<br>⚠️翌営業日以降の日付を指定してください。')">Requested receipt date</div>
+                    <div class="interactive-field" onclick="showModal('Sales responsible', 'リストからご自身の名前を選択します。')">Sales responsible</div>
+                    <div class="interactive-field" onclick="showModal('Customer reference', '何の用途のオーダーか簡潔に記入します。<br>⚠️この内容は<b>納品書のコメント欄に印字</b>されます。(例: XXイベント用サンプル)')">Customer reference</div>
+                    <div class="interactive-field" onclick="showModal('Name or description', '宛先名（会社名、受取人名）を記入します。<br>オフィス宛の場合: 「オン・ジャパン株式会社」と担当者名を記載。')">Name or description</div>
+                    <div class="interactive-field" onclick="showModal('ZIP/postal code', 'ハイフンなしで正しい郵便番号を記入してください。')">ZIP/postal code</div>
+                    <div class="interactive-field" onclick="showModal('Street and Number', '市区以降の発送先住所を記入します。<br>⚠️<b>改行は絶対に使用しないでください。</b>')">Street and Number</div>
+                    <div class="interactive-field" onclick="showModal('City', '都道府県から市区までを記入します。(例: 神奈川県横浜市)')">City</div>
+                </div>
+            </section>
+
+            <section id="step3" class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold text-teal-700 mb-4">Step 3: 「Order Lines」シートの入力</h2>
+                <p class="mb-4 text-stone-600">発送したい製品とその数量を指定します。ここでの入力ミスは、オーダー失敗の主な原因の一つです。</p>
+                <div class="bg-amber-100 border-l-4 border-amber-500 text-amber-800 p-4 rounded-md mb-4">
+                    <h3 class="font-bold mb-2">⚠️ 最重要アクション</h3>
+                    <p>数量が空白の行（発注しない製品の行）は、必ずExcelの<strong class="underline">フィルター機能を使って非表示</strong>にしてください。</p>
+                </div>
+                <div class="bg-stone-100 p-4 rounded-lg">
+                    <h3 class="font-bold mb-2">✅ Key Actions</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><code class="bg-stone-200 px-2 py-1 rounded">Order Amount</code> の列に、発注希望の数量のみ入力します。</li>
+                        <li>事前に <a href="https://onrunning.eu.looker.com/dashboards/11932?Inventory%20Location%20Code=TYO-KN-STK&Plan%20Name=GlobAlloc&Item%20Family=&Item%20Size%20(US)=&Item%20Code=&Gender%20Name=&Item%20Generation=&Item%20Category=Shoes,Apparel,Accessories&Phase%20In%20Date=1900%2F01%2F01%20to%202029%2F01%2F01&Item%20Name=&Drop%20Out%20Date=1900%2F01%2F01%20to%202029%2F01%2F01&Item%20Vertical=&Model%20Name=&Company%20Code=onjp&Sales%20Order%20Type%20Code=&Item%20EAN%20Barcode=" target="_blank" rel="noopener noreferrer" class="text-teal-600 hover:underline font-semibold">Unallocated Stock</a> で在庫状況を確認することを推奨します。</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section id="step4" class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold text-teal-700 mb-4">Step 4: テンプレートの保存</h2>
+                <p class="mb-4 text-stone-600">入力が完了したら、ファイルを保存します。ファイル名には重要なルールがあります。</p>
+                 <div class="bg-amber-100 border-l-4 border-amber-500 text-amber-800 p-4 rounded-md mb-4">
+                    <h3 class="font-bold mb-2">⚠️ 最重要ルール</h3>
+                    <p>一度送信したファイル名はシステム上、二度と使えません。修正して再送信する場合は、<strong class="underline">必ずファイル名を変更</strong>してください。(例: ..._v2, ..._修正版など)</p>
+                </div>
+                <div class="bg-stone-100 p-4 rounded-lg">
+                    <h3 class="font-bold mb-2">推奨ファイル名</h3>
+                    <p><code class="bg-stone-200 px-2 py-1 rounded">OrderType_CustomerName_Shipdate</code> の形式を推奨します。（例: Sample_OnJapan_20250904）</p>
+                </div>
+            </section>
+            
+            <section id="step5" class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold text-teal-700 mb-4">Step 5: メール送信 & オーダー完了</h2>
+                <p class="mb-6 text-stone-600">最後に、作成したファイルを指定された宛先にメールで送信します。送信後の流れをよく確認してください。</p>
+                <div class="bg-stone-100 p-4 rounded-lg mb-6">
+                    <h3 class="font-bold mb-2">✉️ 送信ルール</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>宛先: <code class="bg-stone-200 px-2 py-1 rounded">rpajp_orders@on-running.com</code></li>
+                        <li>件名: <code class="bg-stone-200 px-2 py-1 rounded">rpa order</code> (⚠️ これ以外の件名は不可)</li>
+                        <li>作成したExcelファイルを添付します。</li>
+                    </ul>
+                </div>
+                <h3 class="text-xl font-bold text-stone-700 mb-4 text-center">送信後の流れ</h3>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-4">
+                    <div class="flow-box bg-green-50 flow-arrow">
+                        <h4 class="font-bold text-green-700">Success メール受信</h4>
+                        <p class="text-sm">30分以内に受信。オーダー番号が記載されていれば完了！</p>
+                    </div>
+                    <div class="flow-box bg-red-50 flow-arrow">
+                        <h4 class="font-bold text-red-700">Failure メール受信</h4>
+                        <p class="text-sm">ファイルを修正し、<strong class="underline">ファイル名も変更</strong>して新規メールで再送信。</p>
+                    </div>
+                    <div class="flow-box bg-yellow-50">
+                        <h4 class="font-bold text-yellow-700">返信なし</h4>
+                        <p class="text-sm">数時間返信がない場合、<strong class="underline">再送信せず</strong>にHDチームへ報告。</p>
+                    </div>
+                </div>
+                <div class="mt-8 bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-4 rounded-md">
+                    <h3 class="font-bold mb-2">✏️ オーダー後の訂正・キャンセルについて</h3>
+                    <p class="mb-2">キャンセルや訂正、特別な出荷指示がある場合は、以下の手順でご連絡ください。</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Successメールを転送</strong>した上で、内容を記載してください。</li>
+                        <li>件名は分かりやすく記載をお願いします。（例：【訂正依頼】オーダー番号 XXXX）</li>
+                        <li>宛先: <code class="bg-blue-100 px-2 py-1 rounded">jp_as@on-running.com</code></li>
+                        <li>連絡期限: <strong>翌営業日の午前11時まで</strong></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="after-order" class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold text-teal-700 mb-4">🔍 オーダー後の確認方法 & Q&A</h2>
+                <p class="mb-6 text-stone-600">オーダー作成後、出荷状況などを確認する方法と、よくある質問をまとめました。</p>
+                
+                <h3 class="text-xl font-bold text-stone-700 mb-3">出荷状況の確認</h3>
+                <p class="mb-6">オーダー作成の<strong class="text-teal-800">翌営業日以降</strong>に、以下のダッシュボードで確認できます。</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <div class="bg-stone-100 p-4 rounded-lg">
+                        <h4 class="font-semibold">出荷予定数量</h4>
+                        <p><a href="https://onrunning.eu.looker.com/dashboards/12021?Customer%20Reference=&Customer%20D365%20Number=&Customer%20Name=&Agent%20Name=&Sales%20Order%20Number=&Credit%20Hold%20Type=&Hold%20Reason%20Code=&Phase%20In%20Date=&Item%20Code=&Hard%20Reserved%20(Yes%20%2F%20No)=No&Sales%20Order%20Type%20Code=&Item%20Category=&Item%20Model=&Receipt%20Requested%20Date=&Release%20Date%20(CSD)=after%202023%2F01%2F01&Management%20Country%20Description=&Sales%20Order%20Priority=&Sales%20Channel%20Code=WHSO&Company%20Code%20Filter=onjp&Late%20Threshold=1&Critically%20Late%20Threshold=1&Deadline%20Date=&Agent%20Area=&Plan%20Name%20Filter=GlobAlloc&Demand%20Reference%20Type%20Filter=Sales%20order&Item%20Name=&Item%20Variant%20Name=&Plan%20Version%20ID=not%205640869854,not%205640878870&Inventory%20Location%20Code=&Item%20Size%20Code=&Demand%20Reference%20Number=&Supply%20Requested%20Date=&Item%20EAN%20Barcode=" target="_blank" rel="noopener noreferrer" class="text-teal-600 hover:underline">`APAC Demand Fulfillment Dashboard`</a></p>
+                    </div>
+                    <div class="bg-stone-100 p-4 rounded-lg">
+                        <h4 class="font-semibold">在庫確保状況</h4>
+                        <p><a href="https://onrunning.eu.looker.com/dashboards/9619?Customer+Name=&Source+Record+Created+Date=&Sales+Order+Code=&Item+Name=&Source+Record+Created+By=&Customer+Code=&Picking+Route+Inventory+Location+Code=&Picking+Route+Expedition+Status+Name=&Picking+Route+Code=&Shipping+Requested+Date=&Customer+Reference=&Item+Code=&Company+Code=&Management+Country+Description=Japan&Item+EAN+Barcode=&Packing+Slip+Created+Date=" target="_blank" rel="noopener noreferrer" class="text-teal-600 hover:underline">`JP AS | Picking List Inquiry`</a></p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold text-stone-700 mb-4">🤔 こんな時は？ (Q&A)</h3>
+                <div class="space-y-4">
+                    <details class="q-item bg-stone-50 p-4 rounded-lg cursor-pointer">
+                        <summary class="font-semibold flex justify-between items-center">
+                            テンプレートはどこにありますか？
+                            <span class="q-icon text-teal-600 text-2xl transform">▾</span>
+                        </summary>
+                        <p class="mt-2 text-stone-600 pt-2 border-t">ITチームから共有される最新版をご利用ください。見つけられない場合は、チーム内で確認するかHDチームにお問い合わせください。</p>
+                    </details>
+                    <details class="q-item bg-stone-50 p-4 rounded-lg cursor-pointer">
+                        <summary class="font-semibold flex justify-between items-center">
+                            住所の入力でエラーが出ます。
+                            <span class="q-icon text-teal-600 text-2xl transform">▾</span>
+                        </summary>
+                        <p class="mt-2 text-stone-600 pt-2 border-t">郵便番号が正しいか、`Street and Number`と`City`の入力形式がガイドライン通りか再度確認してください。特に、住所に改行が入っているとエラーの主な原因になります。</p>
+                    </details>
+                    <details class="q-item bg-stone-50 p-4 rounded-lg cursor-pointer">
+                        <summary class="font-semibold flex justify-between items-center">
+                            急ぎの出荷をお願いしたいのですが。
+                            <span class="q-icon text-teal-600 text-2xl transform">▾</span>
+                        </summary>
+                        <p class="mt-2 text-stone-600 pt-2 border-t">`Requested receipt date` には、最短で翌営業日しか指定できません。RPAは即日出荷には対応していません。緊急の場合は、別途HDチームにご相談ください。</p>
+                    </details>
+                    <details class="q-item bg-stone-50 p-4 rounded-lg cursor-pointer">
+                        <summary class="font-semibold flex justify-between items-center">
+                            Failureメールが何度も届きます。
+                            <span class="q-icon text-teal-600 text-2xl transform">▾</span>
+                        </summary>
+                        <p class="mt-2 text-stone-600 pt-2 border-t">このガイドの項目を一つずつ丁寧に見直してください。特に、「数量が空白の行を非表示にする」「ファイル名を変更して再送信する」という点を見落としがちです。それでも解決しない場合は、エラーメールの内容を添えてHDチームにお問い合わせください。</p>
+                    </details>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="info-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative">
+            <button onclick="closeModal()" class="absolute top-3 right-3 text-stone-500 hover:text-stone-800 text-2xl">&times;</button>
+            <h3 id="modal-title" class="text-xl font-bold text-teal-700 mb-4"></h3>
+            <div id="modal-content" class="text-stone-700"></div>
+        </div>
+    </div>
+    
+    <style>
+    .interactive-field {
+        background-color: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        font-weight: 500;
+        color: #374151;
+    }
+    .interactive-field:hover {
+        border-color: #0d9488;
+        box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2);
+        color: #111827;
+    }
+    </style>
+    
+    <script>
+        const sections = document.querySelectorAll('section');
+        const stepItems = document.querySelectorAll('.step-item');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.4
+        };
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    stepItems.forEach((item, index) => {
+                        const stepIndex = parseInt(id.replace('step', '')) -1;
+                        if (index === stepIndex) {
+                            item.classList.add('active');
+                        } else {
+                            item.classList.remove('active');
+                        }
+                    });
+                    if (id === 'after-order') {
+                         stepItems.forEach(item => item.classList.remove('active'));
+                    }
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        const modal = document.getElementById('info-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalContent = document.getElementById('modal-content');
+
+        function showModal(title, content) {
+            modalTitle.textContent = title;
+            modalContent.innerHTML = content;
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+</body>
+</html>
+
+
+
