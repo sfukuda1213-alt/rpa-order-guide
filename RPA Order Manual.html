@@ -297,36 +297,41 @@
     </style>
     
     <script>
-        const sections = document.querySelectorAll('section');
-        const stepItems = document.querySelectorAll('.step-item');
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            const stepItems = document.querySelectorAll('.step-item');
 
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.4
-        };
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
 
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.id;
-                    stepItems.forEach((item, index) => {
-                        const stepIndex = parseInt(id.replace('step', '')) -1;
-                        if (index === stepIndex) {
-                            item.classList.add('active');
-                        } else {
-                            item.classList.remove('active');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        if (id.startsWith('step')) {
+                            const stepIndex = parseInt(id.replace('step', '')) - 1;
+                            if (!isNaN(stepIndex)) {
+                                stepItems.forEach((item, i) => {
+                                    if (i === stepIndex) {
+                                        item.classList.add('active');
+                                    } else {
+                                        item.classList.remove('active');
+                                    }
+                                });
+                            }
+                        } else if (id === 'after-order') {
+                            stepItems.forEach(item => item.classList.remove('active'));
                         }
-                    });
-                    if (id === 'after-order') {
-                         stepItems.forEach(item => item.classList.remove('active'));
                     }
-                }
-            });
-        }, observerOptions);
+                });
+            }, observerOptions);
 
-        sections.forEach(section => {
-            observer.observe(section);
+            sections.forEach(section => {
+                observer.observe(section);
+            });
         });
 
         function scrollToSection(id) {
@@ -341,13 +346,17 @@
         const modalContent = document.getElementById('modal-content');
 
         function showModal(title, content) {
-            modalTitle.textContent = title;
-            modalContent.innerHTML = content;
-            modal.classList.remove('hidden');
+            if (modal && modalTitle && modalContent) {
+                modalTitle.textContent = title;
+                modalContent.innerHTML = content;
+                modal.classList.remove('hidden');
+            }
         }
 
         function closeModal() {
-            modal.classList.add('hidden');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
         }
 
         window.onclick = function(event) {
