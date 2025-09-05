@@ -133,7 +133,7 @@
                 <p class="mb-6 text-stone-600">オーダーの基本情報を入力します。特に2〜12行目は正確さが重要です。下の各項目をクリックすると、詳しい入力方法と注意点が表示されます。</p>
                 <div class="space-y-3">
                     <div class="interactive-field" onclick="showModal('Cluster', 'ご自身の所属チーム（Sales / Marketing）を選択してください。')">Cluster</div>
-                    <div class="interactive-field" onclick="showModal('Account Name', 'リストから対象の項目を選択します。')">Account Name</div>
+                    <div class="interactive-field" onclick="showModal('Account Name', '<table class=\'w-full text-left text-sm table-auto border-collapse\'><thead><tr class=\'bg-stone-100\'><th class=\'p-2 font-semibold border\'>Account Name</th><th class=\'p-2 font-semibold border\'>用途</th></tr></thead><tbody><tr><td class=\'p-2 border align-top font-mono text-xs\'>Japan - Marketing - Marketing materials</td><td class=\'p-2 border align-top\'>什器、ハンガー、マネキンなど（販売可能な商品を出荷することは不可）</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>JP - WHSO_JP_MKT - Experience shoe seeding - TKY</td><td class=\'p-2 border align-top\'>提供用（マーケティング用シーディング）</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>JP - WHSO_JP_MKT -Grassroots product - TKY</td><td class=\'p-2 border align-top\'>提供用（イベント、キャンペーン、景品）</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>JP - WHSO_JP_MKT - Exceptions - TKY</td><td class=\'p-2 border align-top\'>提供用（特別な場合、Manager承認）</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>Global - HQTR_GL_MKT - Influencers MKT - TKY</td><td class=\'p-2 border align-top\'>Social teamのみ使用</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>JP - WHSO_JP_MKT - Media Samples/PR - TKY</td><td class=\'p-2 border align-top\'>返却される予定のもの（メディアへの貸し出しなど）</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>Japan - Sales - Sales team samples</td><td class=\'p-2 border align-top\'>返却される予定のもの（商談でサンプルとして使用など）</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>Japan - Sales - Demo Sets</td><td class=\'p-2 border align-top\'>デモセット作成専用</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>Japan - Sales - Experience items</td><td class=\'p-2 border align-top\'>店舗スタッフへの提供用、販促物</td></tr></tbody></table>')">Account Name</div>
                     <div class="interactive-field" onclick="showModal('Initiative', 'どの予算で出荷するかを選択します。<br>・<b>S</b>で始まる番号 → <b>Sales予算</b><br>・<b>M</b>で始まる番号 → <b>Marketing予算</b>')">Initiative</div>
                     <div class="interactive-field" onclick="showModal('Requested receipt date', '出荷希望日を<b>日月年の順</b>で入力します。(例: 30.07.2025)<br>⚠️翌営業日以降の日付を指定してください。')">Requested receipt date</div>
                     <div class="interactive-field" onclick="showModal('Sales responsible', 'リストからご自身の名前を選択します。')">Sales responsible</div>
@@ -266,7 +266,7 @@
 
     <!-- Modal -->
     <div id="info-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-3xl p-6 relative">
             <button onclick="closeModal()" class="absolute top-3 right-3 text-stone-500 hover:text-stone-800 text-2xl">&times;</button>
             <h3 id="modal-title" class="text-xl font-bold text-teal-700 mb-4"></h3>
             <div id="modal-content" class="text-stone-700"></div>
@@ -354,6 +354,3 @@
 
 </body>
 </html>
-
-
-
