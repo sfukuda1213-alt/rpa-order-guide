@@ -135,7 +135,7 @@
                     <div class="interactive-field" onclick="showModal('Cluster', 'ご自身の所属チーム（Sales / Marketing）を選択してください。')">Cluster</div>
                     <div class="interactive-field" onclick="showModal('Account Name', '<table class=\'w-full text-left text-sm table-auto border-collapse\'><thead><tr class=\'bg-stone-100\'><th class=\'p-2 font-semibold border\'>Account Name</th><th class=\'p-2 font-semibold border\'>用途</th></tr></thead><tbody><tr><td class=\'p-2 border align-top font-mono text-xs\'>Japan - Marketing - Marketing materials</td><td class=\'p-2 border align-top\'>什器、ハンガー、マネキンなど（販売可能な商品を出荷することは不可）</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>JP - WHSO_JP_MKT - Experience shoe seeding - TKY</td><td class=\'p-2 border align-top\'>提供用（マーケティング用シーディング）</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>JP - WHSO_JP_MKT -Grassroots product - TKY</td><td class=\'p-2 border align-top\'>提供用（イベント、キャンペーン、景品）</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>JP - WHSO_JP_MKT - Exceptions - TKY</td><td class=\'p-2 border align-top\'>提供用（特別な場合、Manager承認）</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>Global - HQTR_GL_MKT - Influencers MKT - TKY</td><td class=\'p-2 border align-top\'>Social teamのみ使用</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>JP - WHSO_JP_MKT - Media Samples/PR - TKY</td><td class=\'p-2 border align-top\'>返却される予定のもの（メディアへの貸し出しなど）</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>Japan - Sales - Sales team samples</td><td class=\'p-2 border align-top\'>返却される予定のもの（商談でサンプルとして使用など）</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>Japan - Sales - Demo Sets</td><td class=\'p-2 border align-top\'>デモセット作成専用</td></tr><tr><td class=\'p-2 border align-top font-mono text-xs\'>Japan - Sales - Experience items</td><td class=\'p-2 border align-top\'>店舗スタッフへの提供用、販促物</td></tr></tbody></table>')">Account Name</div>
                     <div class="interactive-field" onclick="showModal('Initiative', 'どの予算で出荷するかを選択します。<br>・<b>S</b>で始まる番号 → <b>Sales予算</b><br>・<b>M</b>で始まる番号 → <b>Marketing予算</b>')">Initiative</div>
-                    <div class="interactive-field" onclick="showModal('Requested receipt date', '出荷希望日を<b>日月年の順</b>で入力します。(例: 30.07.2025)<br>⚠️翌営業日以降の日付を指定してください。')">Requested receipt date</div>
+                    <div class="interactive-field" onclick="showModal('Requested receipt date', '出荷希望日を<b>日月年の順</b>で入力します。(例: 30.07.2025)<br>⚠️指定出荷日については翌々営業日以降で余裕を持った設定でお願いします。')">Requested receipt date</div>
                     <div class="interactive-field" onclick="showModal('Sales responsible', 'リストからご自身の名前を選択します。')">Sales responsible</div>
                     <div class="interactive-field" onclick="showModal('Customer reference', '何の用途のオーダーか簡潔に記入します。<br>⚠️この内容は<b>納品書のコメント欄に印字</b>されます。(例: XXイベント用サンプル)')">Customer reference</div>
                     <div class="interactive-field" onclick="showModal('Name or description', '宛先名（会社名、受取人名）を記入します。<br>オフィス宛の場合: 「オン・ジャパン株式会社」と担当者名を記載。')">Name or description</div>
@@ -181,7 +181,6 @@
                     <h3 class="font-bold mb-2">✉️ 送信ルール</h3>
                     <ul class="list-disc list-inside space-y-2">
                         <li>宛先: <code class="bg-stone-200 px-2 py-1 rounded">rpajp_orders@on-running.com</code></li>
-                        <li>CC: <code class="bg-stone-200 px-2 py-1 rounded">jp_as@on-running.com</code></li>
                         <li>件名: <code class="bg-stone-200 px-2 py-1 rounded">rpa order</code> (⚠️ これ以外の件名は不可)</li>
                         <li>作成したExcelファイルを添付します。</li>
                     </ul>
@@ -256,7 +255,7 @@
                             急ぎの出荷をお願いしたいのですが。
                             <span class="q-icon text-teal-600 text-2xl transform">▾</span>
                         </summary>
-                        <p class="mt-2 text-stone-600 pt-2 border-t">`Requested receipt date` には、最短で翌営業日しか指定できません。RPAは即日出荷には対応していません。緊急の場合は、別途HDチームにご相談ください。</p>
+                        <p class="mt-2 text-stone-600 pt-2 border-t">`Requested receipt date` には、最短で翌々営業日以降しか指定できません。RPAは即日出荷には対応していません。緊急の場合は、別途HDチームにご相談ください。</p>
                     </details>
                     <details class="q-item bg-stone-50 p-4 rounded-lg cursor-pointer">
                         <summary class="font-semibold flex justify-between items-center">
@@ -303,7 +302,7 @@
 
         const observerOptions = {
             root: null,
-            rootMargin: '0px',
+            rootMargin: 'px',
             threshold: 0.4
         };
 
