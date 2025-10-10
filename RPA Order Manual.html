@@ -55,15 +55,6 @@
             }
         }
     </style>
-    <!-- Chosen Palette: Warm Neutrals with Teal Accent -->
-    <!-- Application Structure Plan: A task-oriented, single-page application that guides the user through the 5-step order process. The structure uses a top navigation stepper to allow users to jump between sections. Each step is presented in a separate card with interactive elements, like a clickable form guide and key action callouts, to improve comprehension and reduce errors. A final section provides post-order information and an accordion-style Q&A. This linear, step-by-step structure was chosen because the source material is a strict procedure, and guiding the user sequentially is the most effective way to ensure they follow it correctly. -->
-    <!-- Visualization & Content Choices: 
-        - Process Overview -> Goal: Show progress, provide navigation -> Viz: HTML/CSS Stepper -> Interaction: Click to scroll to section -> Justification: Intuitive UI for multi-step tasks.
-        - 'Order Header' Fields -> Goal: Explain complex form requirements clearly -> Viz: Interactive List styled as form fields -> Interaction: Click on a field to reveal a detailed modal with instructions and warnings -> Justification: Avoids a large, intimidating table; allows users to focus on one field at a time (progressive disclosure).
-        - Submission Outcomes -> Goal: Clarify the results of the email action -> Viz: HTML/CSS Flowchart -> Interaction: None, purely visual -> Justification: A visual flow is easier to understand than descriptive text for conditional outcomes.
-        - Q&A -> Goal: Provide help without cluttering the UI -> Viz: HTML/CSS Accordion -> Interaction: Click to expand/collapse answers -> Justification: Standard, space-saving method for FAQs.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
 <body class="bg-stone-50 text-stone-800">
 
@@ -83,7 +74,6 @@
             </ul>
         </div>
 
-        <!-- Stepper Navigation -->
         <nav class="mb-12">
             <div class="flex items-center justify-between">
                 <div class="step-item flex-1 text-center cursor-pointer" onclick="scrollToSection('step1')">
@@ -113,7 +103,6 @@
             </div>
         </nav>
 
-        <!-- Main Content -->
         <main class="space-y-12">
             
             <section id="step1" class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
@@ -217,10 +206,14 @@
                 <p class="mb-6 text-stone-600">オーダー作成後、出荷状況などを確認する方法と、よくある質問をまとめました。</p>
                 
                 <h3 class="text-xl font-bold text-stone-700 mb-3">出荷状況の確認</h3>
-                <div class="grid grid-cols-1 gap-4 mb-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div class="bg-stone-100 p-4 rounded-lg">
                         <h4 class="font-semibold">在庫確保状況</h4>
                         <p><a href="https://onrunning.eu.looker.com/dashboards/9619?Customer+Name=&Source+Record+Created+Date=&Sales+Order+Code=&Item+Name=&Source+Record+Created+By=&Customer+Code=&Picking+Route+Inventory+Location+Code=&Picking+Route+Expedition+Status+Name=&Picking+Route+Code=&Shipping+Requested+Date=&Customer+Reference=&Item+Code=&Company+Code=&Management+Country+Description=Japan&Item+EAN+Barcode=&Packing+Slip+Created+Date=" target="_blank" rel="noopener noreferrer" class="text-teal-600 hover:underline">`JP AS | Picking List Inquiry`</a></p>
+                    </div>
+                    <div class="bg-stone-100 p-4 rounded-lg">
+                        <h4 class="font-semibold">出荷状況</h4>
+                        <p><a href="https://onrunning.eu.looker.com/dashboards/14776?Sales+Order+Code=&Delivery+Date=this+month&Packing+Slip+Code=&Sales+Header+Status+Name=&Sell+to+Customer+Code=&Transaction+Invoice+Date=&Sales+Type+Name=&Transaction+Order+Date=&Transaction+Packing+Date=&Hso+Tracking+Number=&Inventory+Location+Code=&Item+Code=&Sales+Order+Type+Code=&Inventory+Size+Code=" target="_blank" rel="noopener noreferrer" class="text-teal-600 hover:underline">MKT Tracking number report</a></p>
                     </div>
                 </div>
                 <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-4 rounded-md mb-8">
@@ -269,7 +262,6 @@
         </main>
     </div>
 
-    <!-- Modal -->
     <div id="info-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
         <div class="bg-white rounded-lg shadow-xl w-full max-w-3xl p-6 relative">
             <button onclick="closeModal()" class="absolute top-3 right-3 text-stone-500 hover:text-stone-800 text-2xl">&times;</button>
@@ -368,4 +360,3 @@
 
 </body>
 </html>
-
